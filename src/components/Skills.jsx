@@ -1,47 +1,37 @@
-const skillData = [
-  { name: 'HTML & CSS', level: 92, category: 'Frontend' },
-  { name: 'JavaScript', level: 88, category: 'Frontend' },
-  { name: 'React.js', level: 85, category: 'Frontend' },
-  { name: 'Next.js', level: 78, category: 'Frontend' },
-  { name: 'PHP', level: 80, category: 'Backend' },
-  { name: 'Node.js', level: 75, category: 'Backend' },
-  { name: 'C', level: 70, category: 'Backend' },
-  { name: 'C++', level: 65, category: 'Backend' },
-  { name: 'Flutter', level: 72, category: 'Mobile' },
-  { name: 'Kotlin', level: 68, category: 'Mobile' },
+const skills = [
+  { name: 'JavaScript', category: 'Languages' },
+  { name: 'React', category: 'Frontend' },
+  { name: 'Next.js', category: 'Frontend' },
+  { name: 'PHP', category: 'Backend' },
+  { name: 'Laravel', category: 'Backend' },
+  { name: 'Node.js', category: 'Backend' },
+  { name: 'MySQL', category: 'Backend' },
+  { name: 'HTML', category: 'Languages' },
+  { name: 'CSS', category: 'Languages' },
+  { name: 'Git', category: 'Tools' },
 ]
 
-const categories = ['Frontend', 'Backend', 'Mobile']
-
-import { lazy, Suspense } from 'react'
-const SectionScene = lazy(() => import('./SectionScene'))
+const categories = [...new Set(skills.map((s) => s.category))]
 
 export default function Skills() {
   return (
     <section id="skills" className="skills">
-      <div className="section-bg"><Suspense fallback={null}><SectionScene variant="bars" /></Suspense></div>
-      <div className="skills-header">
+      <div style={{ maxWidth: 'var(--max-w)', margin: '0 auto' }}>
         <span className="section-label">Skills</span>
         <h2 className="section-title">My Stack</h2>
-        <p className="skills-subtitle">
-          Technologies I've been working with to build digital products
+        <p className="section-subtitle">
+          Technologies I work with to build digital products
         </p>
       </div>
-      <div className="skills-categories">
+      <div className="skills-grid">
         {categories.map((cat) => (
-          <div className="skill-category stagger-item" style={{ '--i': 0 }} key={cat}>
+          <div className="skill-category" key={cat}>
             <h3 className="skill-cat-title">{cat}</h3>
-            {skillData.filter((s) => s.category === cat).map((skill, i) => (
-              <div className="skill-bar-group stagger-item" style={{ '--i': i + 1 }} key={skill.name}>
-                <div className="skill-bar-label">
-                  <span>{skill.name}</span>
-                  <span className="skill-bar-pct">{skill.level}%</span>
-                </div>
-                <div className="skill-bar-track">
-                  <div className="skill-bar-fill" style={{ '--w': `${skill.level}%` }} />
-                </div>
-              </div>
-            ))}
+            <div className="skill-list">
+              {skills.filter((s) => s.category === cat).map((skill) => (
+                <span className="skill-tag" key={skill.name}>{skill.name}</span>
+              ))}
+            </div>
           </div>
         ))}
       </div>
