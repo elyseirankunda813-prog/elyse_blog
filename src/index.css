@@ -301,10 +301,19 @@ footer { border-top: 1px solid var(--border); padding: 40px 32px; }
   .hamburger { display: flex; position: fixed; top: 16px; right: 24px; z-index: 200; }
   .nav-cta { display: none; }
   .about-stats { justify-content: center; }
+  .hero-bg video { display: none !important; }
+  .hero-bg { background: var(--bg); }
+  .hero-overlay { display: none; }
   .hero { text-align: center; }
-  .hero-subtitle { margin-left: auto; margin-right: auto; }
+  .hero-name { color: var(--text); }
+  .hero-subtitle { color: var(--text-secondary); margin-left: auto; margin-right: auto; }
   .hero-actions { justify-content: center; }
   .hero-links { justify-content: center; }
+  .hero-links a {
+    color: var(--text); border-color: var(--border);
+    background: transparent;
+  }
+  .hero-links a:hover { border-color: var(--text); color: var(--text); }
 }
 
 @media (max-width: 640px) {

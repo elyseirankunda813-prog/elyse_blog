@@ -2,6 +2,7 @@ import { useRef, useEffect, useState, useCallback } from 'react'
 import { useNavigate } from 'react-router-dom'
 
 const VIDEO_SRC = 'https://cdn.pixabay.com/video/2020/07/07/44081-438195519_large.mp4'
+const MOBILE_BREAKPOINT = 768
 
 export default function Hero() {
   const videoRef = useRef(null)
@@ -13,6 +14,8 @@ export default function Hero() {
     const el = bgRef.current
     const video = videoRef.current
     if (!el || !video) return
+
+    if (window.innerWidth <= MOBILE_BREAKPOINT) return
 
     const observer = new IntersectionObserver(
       ([entry]) => {
@@ -29,6 +32,17 @@ export default function Hero() {
     return () => observer.disconnect()
   }, [videoLoaded])
 
+  useEffect(() => {
+    const video = videoRef.current
+    if (!video || !videoLoaded) return
+
+    const onCanPlay = () => {
+      video.play().catch(() => {})
+    }
+    video.addEventListener('canplay', onCanPlay, { once: true })
+    return () => video.removeEventListener('canplay', onCanPlay)
+  }, [videoLoaded])
+
   const scrollTo = useCallback((id) => {
     const el = document.getElementById(id)
     if (el) el.scrollIntoView({ behavior: 'smooth' })
@@ -43,7 +57,7 @@ export default function Hero() {
           muted
           loop
           playsInline
-          preload="none"
+          preload="metadata"
           aria-hidden="true"
         />
         <div className="hero-overlay" aria-hidden="true" />
