@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useCallback } from 'react'
 import { useNavigate, useLocation } from 'react-router-dom'
 
 const links = ['About', 'Skills', 'Contact']
@@ -14,19 +14,27 @@ export default function Navbar() {
     const onScroll = () => {
       setScrolled(window.scrollY > 40)
       if (location.pathname !== '/') return
-      const offsets = links.map((id) => {
-        const el = document.getElementById(id.toLowerCase())
-        return { id, top: el?.offsetTop ?? 0 }
-      })
       const scrollY = window.scrollY + 120
-      const current = [...offsets].reverse().find((s) => scrollY >= s.top)
-      setActive(current?.id ?? '')
+      const current = [...links].reverse().find((id) => {
+        const el = document.getElementById(id.toLowerCase())
+        return el && scrollY >= el.offsetTop
+      })
+      setActive(current ?? '')
     }
     window.addEventListener('scroll', onScroll, { passive: true })
     return () => window.removeEventListener('scroll', onScroll)
   }, [location])
 
-  const scrollTo = (id) => {
+  useEffect(() => {
+    if (menuOpen) {
+      document.body.style.overflow = 'hidden'
+    } else {
+      document.body.style.overflow = ''
+    }
+    return () => { document.body.style.overflow = '' }
+  }, [menuOpen])
+
+  const scrollTo = useCallback((id) => {
     if (location.pathname !== '/') {
       navigate('/')
       setTimeout(() => {
@@ -38,12 +46,12 @@ export default function Navbar() {
       if (el) el.scrollIntoView({ behavior: 'smooth' })
     }
     setMenuOpen(false)
-  }
+  }, [location, navigate])
 
   return (
-    <nav className={`navbar ${scrolled ? 'scrolled' : ''}`}>
+    <nav className={`navbar ${scrolled ? 'scrolled' : ''}`} role="navigation" aria-label="Main navigation">
       <div className="nav-content">
-        <span className="nav-logo" onClick={() => { navigate('/'); window.scrollTo({ top: 0, behavior: 'smooth' }) }}>
+        <span className="nav-logo" onClick={() => { navigate('/'); window.scrollTo({ top: 0, behavior: 'smooth' }) }} role="link" tabIndex={0} onKeyDown={(e) => { if (e.key === 'Enter') { navigate('/'); window.scrollTo({ top: 0, behavior: 'smooth' }) } }}>
           Elyse
         </span>
         <button
@@ -57,16 +65,16 @@ export default function Navbar() {
           <span />
         </button>
         {menuOpen && <div className="nav-overlay" onClick={() => setMenuOpen(false)} />}
-        <ul className={`nav-links ${menuOpen ? 'open' : ''}`}>
+        <ul className={`nav-links ${menuOpen ? 'open' : ''}`} role="menubar">
           {links.map((link) => (
-            <li key={link}>
-              <a onClick={() => scrollTo(link)} className={active === link ? 'active' : ''}>
+            <li key={link} role="none">
+              <a role="menuitem" onClick={() => scrollTo(link)} className={active === link ? 'active' : ''} tabIndex={0}>
                 {link}
               </a>
             </li>
           ))}
-          <li>
-            <a onClick={() => { navigate('/projects'); setMenuOpen(false) }} className={location.pathname === '/projects' ? 'active' : ''}>
+          <li role="none">
+            <a role="menuitem" onClick={() => { navigate('/projects'); setMenuOpen(false) }} className={location.pathname === '/projects' ? 'active' : ''} tabIndex={0}>
               Projects
             </a>
           </li>

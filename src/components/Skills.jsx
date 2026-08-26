@@ -15,17 +15,17 @@ const categories = [...new Set(skills.map((s) => s.category))]
 
 export default function Skills() {
   return (
-    <section id="skills" className="skills">
-      <div style={{ maxWidth: 'var(--max-w)', margin: '0 auto' }}>
+    <section id="skills" className="skills" aria-label="Skills">
+      <div className="skills-header">
         <span className="section-label">Skills</span>
         <h2 className="section-title">My Stack</h2>
         <p className="section-subtitle">
           Technologies I work with to build digital products
         </p>
       </div>
-      <div className="skills-grid">
+      <div className="skills-grid" role="list">
         {categories.map((cat) => (
-          <div className="skill-category" key={cat}>
+          <div className="skill-category" key={cat} role="listitem">
             <h3 className="skill-cat-title">{cat}</h3>
             <div className="skill-list">
               {skills.filter((s) => s.category === cat).map((skill) => (

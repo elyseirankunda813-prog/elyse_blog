@@ -6,6 +6,13 @@ export default function Reveal({ children, className = '' }) {
   useEffect(() => {
     const el = ref.current
     if (!el) return
+
+    const prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches
+    if (prefersReduced) {
+      el.classList.add('revealed')
+      return
+    }
+
     const observer = new IntersectionObserver(
       ([entry]) => {
         if (entry.isIntersecting) {

@@ -31,7 +31,7 @@ const projects = [
 
 export default function Projects() {
   return (
-    <section id="projects" className="projects">
+    <section id="projects" className="projects" aria-label="Projects">
       <div className="projects-header">
         <span className="section-label">Projects</span>
         <h2 className="section-title">What I've Built</h2>
@@ -39,12 +39,12 @@ export default function Projects() {
           A selection of projects that showcase my skills and passion for building
         </p>
       </div>
-      <div className="projects-grid">
+      <div className="projects-grid" role="list">
         {projects.map((p, i) => (
-          <a href={p.link} className="project-card" key={i} target="_blank" rel="noreferrer">
+          <a href={p.link} className="project-card" key={i} target="_blank" rel="noreferrer" role="listitem" aria-label={`${p.title} — ${p.desc}`}>
             <div className="project-card-img">
-              <img src={p.image} alt={p.title} loading="lazy" />
-              <span className="project-card-num">0{i + 1}</span>
+              <img src={p.image} alt={`Screenshot of ${p.title}`} loading="lazy" width="600" height="375" />
+              <span className="project-card-num" aria-hidden="true">0{i + 1}</span>
             </div>
             <div className="project-card-body">
               <h3 className="project-card-title">{p.title}</h3>
@@ -56,7 +56,7 @@ export default function Projects() {
               </ul>
               <span className="project-card-link">
                 View Project
-                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
               </span>
             </div>
           </a>

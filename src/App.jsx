@@ -1,11 +1,13 @@
+import { lazy, Suspense } from 'react'
 import { Routes, Route } from 'react-router-dom'
 import Navbar from './components/Navbar'
 import Hero from './components/Hero'
 import About from './components/About'
 import Skills from './components/Skills'
 import Contact from './components/Contact'
-import ProjectsPage from './pages/ProjectsPage'
 import Reveal from './components/Reveal'
+
+const ProjectsPage = lazy(() => import('./pages/ProjectsPage'))
 
 function Home() {
   return (
@@ -21,20 +23,23 @@ function Home() {
 export default function App() {
   return (
     <>
+      <a href="#main-content" className="skip-link">Skip to content</a>
       <Navbar />
-      <main>
-        <Routes>
-          <Route path="/" element={<Home />} />
-          <Route path="/projects" element={<ProjectsPage />} />
-        </Routes>
+      <main id="main-content">
+        <Suspense fallback={null}>
+          <Routes>
+            <Route path="/" element={<Home />} />
+            <Route path="/projects" element={<ProjectsPage />} />
+          </Routes>
+        </Suspense>
       </main>
       <footer>
         <div className="footer-inner">
           <p className="footer-copy">&copy; 2026 Elyse</p>
-          <div className="footer-social">
-            <a href="https://github.com/elyseirankunda/" target="_blank" rel="noreferrer">GitHub</a>
-            <a href="https://www.linkedin.com/in/irankunda-elyse-753156421/" target="_blank" rel="noreferrer">LinkedIn</a>
-            <a href="mailto:elyseirankunda468@gmail.com">Email</a>
+          <div className="footer-social" role="list" aria-label="Social links">
+            <a href="https://github.com/elyseirankunda/" target="_blank" rel="noreferrer" role="listitem">GitHub</a>
+            <a href="https://www.linkedin.com/in/irankunda-elyse-753156421/" target="_blank" rel="noreferrer" role="listitem">LinkedIn</a>
+            <a href="mailto:elyseirankunda468@gmail.com" role="listitem">Email</a>
           </div>
         </div>
       </footer>
