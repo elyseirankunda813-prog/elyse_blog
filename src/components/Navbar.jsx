@@ -1,5 +1,6 @@
-import { useState, useEffect, useCallback } from 'react'
-import { useNavigate, useLocation } from 'react-router-dom'
+import { useState, useEffect, useCallback, useRef } from 'react'
+import { Link, useNavigate, useLocation } from 'react-router-dom'
+import ThemeToggle from './ThemeToggle'
 
 const links = ['About', 'Skills', 'Contact']
 
@@ -9,6 +10,7 @@ export default function Navbar() {
   const [active, setActive] = useState('')
   const navigate = useNavigate()
   const location = useLocation()
+  const pendingScroll = useRef(null)
 
   useEffect(() => {
     const onScroll = () => {
@@ -34,13 +36,20 @@ export default function Navbar() {
     return () => { document.body.style.overflow = '' }
   }, [menuOpen])
 
+  useEffect(() => {
+    if (location.pathname !== '/' || !pendingScroll.current) return
+    const id = pendingScroll.current
+    pendingScroll.current = null
+    requestAnimationFrame(() => {
+      const el = document.getElementById(id)
+      if (el) el.scrollIntoView({ behavior: 'smooth' })
+    })
+  }, [location])
+
   const scrollTo = useCallback((id) => {
     if (location.pathname !== '/') {
+      pendingScroll.current = id
       navigate('/')
-      setTimeout(() => {
-        const el = document.getElementById(id.toLowerCase())
-        if (el) el.scrollIntoView({ behavior: 'smooth' })
-      }, 100)
     } else {
       const el = document.getElementById(id.toLowerCase())
       if (el) el.scrollIntoView({ behavior: 'smooth' })
@@ -51,9 +60,9 @@ export default function Navbar() {
   return (
     <nav className={`navbar ${scrolled ? 'scrolled' : ''}`} role="navigation" aria-label="Main navigation">
       <div className="nav-content">
-        <span className="nav-logo" onClick={() => { navigate('/'); window.scrollTo({ top: 0, behavior: 'smooth' }) }} role="link" tabIndex={0} onKeyDown={(e) => { if (e.key === 'Enter') { navigate('/'); window.scrollTo({ top: 0, behavior: 'smooth' }) } }}>
+        <Link to="/" className="nav-logo" onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}>
           Elyse
-        </span>
+        </Link>
         <button
           className="hamburger"
           onClick={() => setMenuOpen(!menuOpen)}
@@ -78,10 +87,21 @@ export default function Navbar() {
               Projects
             </a>
           </li>
+          <li role="none">
+            <a role="menuitem" onClick={() => { navigate('/guestbook'); setMenuOpen(false) }} className={location.pathname === '/guestbook' ? 'active' : ''} tabIndex={0}>
+              Guest Book
+            </a>
+          </li>
+          <li role="none">
+            <a role="menuitem" onClick={() => { navigate('/playground'); setMenuOpen(false) }} className={location.pathname === '/playground' ? 'active' : ''} tabIndex={0}>
+              Playground
+            </a>
+          </li>
         </ul>
         <button className="nav-cta" onClick={() => scrollTo('Contact')}>
           Let's Talk
         </button>
+        <ThemeToggle />
       </div>
     </nav>
   )

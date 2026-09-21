@@ -8,6 +8,8 @@ import Contact from './components/Contact'
 import Reveal from './components/Reveal'
 
 const ProjectsPage = lazy(() => import('./pages/ProjectsPage'))
+const GuestBookPage = lazy(() => import('./pages/GuestBookPage'))
+const PlaygroundPage = lazy(() => import('./pages/PlaygroundPage'))
 
 function Home() {
   return (
@@ -30,6 +32,8 @@ export default function App() {
           <Routes>
             <Route path="/" element={<Home />} />
             <Route path="/projects" element={<ProjectsPage />} />
+            <Route path="/guestbook" element={<GuestBookPage />} />
+            <Route path="/playground" element={<PlaygroundPage />} />
           </Routes>
         </Suspense>
       </main>
