@@ -37,7 +37,7 @@ export default function ContactForm() {
 
     setStatus('sending')
     const controller = new AbortController()
-    const timeout = setTimeout(() => controller.abort(), 12000)
+    const timeout = setTimeout(() => controller.abort(), 20000)
     try {
       const res = await fetch(FORM_ENDPOINT, {
         method: 'POST',
@@ -45,7 +45,8 @@ export default function ContactForm() {
         body: JSON.stringify({ ...values, _subject: 'Website Contact Form' }),
         signal: controller.signal,
       })
-      if (!res.ok) throw new Error('Submit failed')
+      const data = await res.json().catch(() => null)
+      if (!res.ok || !data || String(data.success) !== 'true') throw new Error('Submit failed')
       setStatus('success')
       setValues(initialValues)
     } catch {
@@ -107,7 +108,8 @@ export default function ContactForm() {
       )}
       {status === 'error' && (
         <p className="contact-form-status is-error" role="alert">
-          Something went wrong. Please try again or email me directly.
+          Something went wrong. Please try again or{' '}
+          <a href="mailto:elyseirankunda813@gmail.com?subject=Website%20Contact%20Form">email me directly</a>.
         </p>
       )}
     </form>

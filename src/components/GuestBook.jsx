@@ -74,6 +74,8 @@ export default function GuestBook() {
     }
 
     setStatus('sending')
+    const controller = new AbortController()
+    const timeout = setTimeout(() => controller.abort(), 20000)
     try {
       const res = await fetch(FORM_ENDPOINT, {
         method: 'POST',
@@ -83,14 +85,18 @@ export default function GuestBook() {
           message: entry.message,
           _subject: 'Website Guest Book Sign In',
         }),
+        signal: controller.signal,
       })
-      if (!res.ok) throw new Error('Submit failed')
+      const data = await res.json().catch(() => null)
+      if (!res.ok || !data || String(data.success) !== 'true') throw new Error('Submit failed')
       setEntries((prev) => [entry, ...prev])
       setValues({ name: '', message: '' })
       setStatus('success')
       window.setTimeout(() => setStatus('idle'), 3200)
     } catch {
       setStatus('error')
+    } finally {
+      clearTimeout(timeout)
     }
   }
 
@@ -153,7 +159,8 @@ export default function GuestBook() {
           )}
           {status === 'error' && (
             <p className="contact-form-status is-error" role="alert">
-              Something went wrong. Please try again or email me directly.
+              Something went wrong. Please try again or{' '}
+              <a href="mailto:elyseirankunda813@gmail.com?subject=Website%20Guest%20Book">email me directly</a>.
             </p>
           )}
         </form>
