@@ -1,6 +1,6 @@
 import { useState } from 'react'
 
-const FORM_ENDPOINT = 'https://formsubmit.co/ajax/elyseirankunda468@gmail.com'
+const FORM_ENDPOINT = 'https://formsubmit.co/ajax/elyseirankunda813@gmail.com'
 
 const initialValues = { name: '', email: '', message: '' }
 

@@ -43,7 +43,7 @@ export default function App() {
           <div className="footer-social" role="list" aria-label="Social links">
             <a href="https://github.com/elyseirankunda/" target="_blank" rel="noreferrer" role="listitem">GitHub</a>
             <a href="https://www.linkedin.com/in/irankunda-elyse-753156421/" target="_blank" rel="noreferrer" role="listitem">LinkedIn</a>
-            <a href="mailto:elyseirankunda468@gmail.com" role="listitem">Email</a>
+            <a href="mailto:elyseirankunda813@gmail.com" role="listitem">Email</a>
           </div>
         </div>
       </footer>

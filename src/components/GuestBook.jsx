@@ -2,7 +2,7 @@ import { useEffect, useRef, useState } from 'react'
 import Globe3D from './Globe3D'
 
 const STORAGE_KEY = 'elyse-guestbook'
-const FORM_ENDPOINT = 'https://formsubmit.co/ajax/elyseirankunda468@gmail.com'
+const FORM_ENDPOINT = 'https://formsubmit.co/ajax/elyseirankunda813@gmail.com'
 const MAX_MESSAGE = 280
 
 const readEntries = () => {

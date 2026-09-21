@@ -8,9 +8,9 @@ export default function Contact() {
         <span className="section-label">Contact</span>
         <h2 className="contact-statement">Let's build something useful.</h2>
         <div className="contact-links" role="list" aria-label="Contact options">
-          <a href="mailto:elyseirankunda468@gmail.com" className="contact-link" role="listitem" aria-label="Send email">
+          <a href="mailto:elyseirankunda813@gmail.com" className="contact-link" role="listitem" aria-label="Send email">
             <EmailIcon />
-            elyseirankunda468@gmail.com
+            elyseirankunda813@gmail.com
           </a>
           <a href="https://github.com/elyseirankunda/" target="_blank" rel="noreferrer" className="contact-link" role="listitem" aria-label="GitHub profile">
             <GitHubIcon size={18} />
