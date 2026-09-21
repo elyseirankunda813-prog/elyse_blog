@@ -4,9 +4,15 @@ import { BrowserRouter } from 'react-router-dom'
 import './index.css'
 import App from './App.jsx'
 
+const redirect = sessionStorage.getItem('gh-pages-redirect')
+if (redirect) {
+  sessionStorage.removeItem('gh-pages-redirect')
+  window.history.replaceState(null, '', redirect)
+}
+
 createRoot(document.getElementById('root')).render(
   <StrictMode>
-    <BrowserRouter>
+    <BrowserRouter basename="/elyse_blog">
       <App />
     </BrowserRouter>
   </StrictMode>,
