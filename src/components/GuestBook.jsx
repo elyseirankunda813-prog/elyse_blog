@@ -1,5 +1,6 @@
-import { useEffect, useRef, useState } from 'react'
-import Globe3D from './Globe3D'
+import { lazy, Suspense, useEffect, useRef, useState } from 'react'
+
+const Globe3D = lazy(() => import('./Globe3D'))
 
 const STORAGE_KEY = 'elyse-guestbook'
 const FORM_ENDPOINT = 'https://formsubmit.co/ajax/elyseirankunda813@gmail.com'
@@ -104,7 +105,9 @@ export default function GuestBook() {
               Drop a note for anyone who visits this page. No account needed.
             </p>
           </div>
-          <Globe3D />
+          <Suspense fallback={<div className="guestbook-hero" aria-hidden="true" />}>
+            <Globe3D />
+          </Suspense>
         </div>
 
         <form className="guestbook-form" onSubmit={handleSubmit} noValidate>

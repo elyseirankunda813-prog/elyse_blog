@@ -27,7 +27,31 @@ const DEG = Math.PI / 180
 const START_ROT = -LON0 * DEG
 const SPIN = 0.21
 
-const features = feature(landTopo, landTopo.objects.countries).features
+const bounds = (geometry) => {
+  let minLng = 180
+  let maxLng = -180
+  let minLat = 90
+  let maxLat = -90
+  const polygons = geometry.type === 'Polygon' ? [geometry.coordinates] : geometry.coordinates
+  for (const rings of polygons) {
+    for (const ring of rings) {
+      for (const [lng, lat] of ring) {
+        if (lng < minLng) minLng = lng
+        if (lng > maxLng) maxLng = lng
+        if (lat < minLat) minLat = lat
+        if (lat > maxLat) maxLat = lat
+      }
+    }
+  }
+  return { minLng, maxLng, minLat, maxLat }
+}
+
+const FEATURES = feature(landTopo, landTopo.objects.countries).features
+  .filter((f) => f.geometry)
+  .map((f) => ({
+    polygons: f.geometry.type === 'Polygon' ? [f.geometry.coordinates] : f.geometry.coordinates,
+    box: bounds(f.geometry),
+  }))
 
 const ringContains = (ring, lng, lat) => {
   let inside = false
@@ -44,11 +68,10 @@ const ringContains = (ring, lng, lat) => {
 }
 
 const isLand = (lng, lat) => {
-  for (const f of features) {
-    const g = f.geometry
-    if (!g) continue
-    const polygons = g.type === 'Polygon' ? [g.coordinates] : g.coordinates
-    for (const rings of polygons) {
+  for (const f of FEATURES) {
+    const b = f.box
+    if (lng < b.minLng || lng > b.maxLng || lat < b.minLat || lat > b.maxLat) continue
+    for (const rings of f.polygons) {
       let inPoly = false
       for (const ring of rings) if (ringContains(ring, lng, lat)) inPoly = !inPoly
       if (inPoly) return true
