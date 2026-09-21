@@ -1,0 +1,14 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Redirecting…</title>
+  <script>
+    var base = '/elyse_blog'
+    var path = location.pathname.replace(new RegExp('^' + base), '') || '/'
+    sessionStorage.setItem('gh-pages-redirect', path)
+    location.replace(base + '/')
+  </script>
+</head>
+<body></body>
+</html>
