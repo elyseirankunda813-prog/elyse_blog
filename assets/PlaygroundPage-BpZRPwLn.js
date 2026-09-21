@@ -1,4 +1,4 @@
-import{r as o,j as e,L as v}from"./index-DpwsWKr2.js";const a={html:`<h1>Pixel Counter</h1>
+import{r as o,j as e,L as v}from"./index-C1mRR2OB.js";const a={html:`<h1>Pixel Counter</h1>
 <button id="btn">Clicks: <span id="count">0</span></button>`,css:`body {
   font-family: monospace;
   display: grid;
