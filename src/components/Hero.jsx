@@ -2,7 +2,7 @@ import { useRef, useEffect, useState, useCallback } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { GitHubIcon, LinkedInIcon } from './icons'
 
-const VIDEO_SRC = 'https://cdn.pixabay.com/video/2020/07/07/44081-438195519_large.mp4'
+const VIDEO_SRC = 'https://cdn.pixabay.com/video/2020/07/07/44081-438195519_small.mp4'
 const MOBILE_BREAKPOINT = 768
 
 export default function Hero() {

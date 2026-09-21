@@ -36,17 +36,22 @@ export default function ContactForm() {
     if (Object.keys(next).some((key) => next[key])) return
 
     setStatus('sending')
+    const controller = new AbortController()
+    const timeout = setTimeout(() => controller.abort(), 12000)
     try {
       const res = await fetch(FORM_ENDPOINT, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
         body: JSON.stringify({ ...values, _subject: 'Website Contact Form' }),
+        signal: controller.signal,
       })
       if (!res.ok) throw new Error('Submit failed')
       setStatus('success')
       setValues(initialValues)
     } catch {
       setStatus('error')
+    } finally {
+      clearTimeout(timeout)
     }
   }
 
