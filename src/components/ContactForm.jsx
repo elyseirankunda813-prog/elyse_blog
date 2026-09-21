@@ -1,6 +1,7 @@
 import { useState } from 'react'
 
-const FORM_ENDPOINT = 'https://formsubmit.co/ajax/elyseirankunda813@gmail.com'
+const FORM_ENDPOINT = 'https://api.web3forms.com/submit'
+const ACCESS_KEY = '6d65e425-e9fc-4cab-a4ff-8b487eb0b17c'
 
 const initialValues = { name: '', email: '', message: '' }
 
@@ -37,12 +38,18 @@ export default function ContactForm() {
 
     setStatus('sending')
     const controller = new AbortController()
-    const timeout = setTimeout(() => controller.abort(), 20000)
+    const timeout = setTimeout(() => controller.abort(), 15000)
     try {
       const res = await fetch(FORM_ENDPOINT, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
-        body: JSON.stringify({ ...values, _subject: 'Website Contact Form' }),
+        body: JSON.stringify({
+          access_key: ACCESS_KEY,
+          name: values.name,
+          email: values.email,
+          message: values.message,
+          subject: 'Website Contact Form',
+        }),
         signal: controller.signal,
       })
       const data = await res.json().catch(() => null)

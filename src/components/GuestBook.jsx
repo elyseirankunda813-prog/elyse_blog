@@ -3,7 +3,8 @@ import { lazy, Suspense, useEffect, useRef, useState } from 'react'
 const Globe3D = lazy(() => import('./Globe3D'))
 
 const STORAGE_KEY = 'elyse-guestbook'
-const FORM_ENDPOINT = 'https://formsubmit.co/ajax/elyseirankunda813@gmail.com'
+const FORM_ENDPOINT = 'https://api.web3forms.com/submit'
+const ACCESS_KEY = '6d65e425-e9fc-4cab-a4ff-8b487eb0b17c'
 const MAX_MESSAGE = 280
 
 const readEntries = () => {
@@ -75,15 +76,16 @@ export default function GuestBook() {
 
     setStatus('sending')
     const controller = new AbortController()
-    const timeout = setTimeout(() => controller.abort(), 20000)
+    const timeout = setTimeout(() => controller.abort(), 15000)
     try {
       const res = await fetch(FORM_ENDPOINT, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
         body: JSON.stringify({
+          access_key: ACCESS_KEY,
           name: entry.name,
           message: entry.message,
-          _subject: 'Website Guest Book Sign In',
+          subject: 'Website Guest Book Sign In',
         }),
         signal: controller.signal,
       })
